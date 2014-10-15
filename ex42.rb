@@ -9,7 +9,7 @@ end
 class Dog < Animal
 
   def initialize(name)
-    # Dog has a name
+    # Dog has-a name
     @name = name
   end
 end
