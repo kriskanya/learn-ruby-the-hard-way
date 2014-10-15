@@ -15,45 +15,37 @@ class Lexicon
 
 # %w is a whitespace separated array
 
-  Pair = Struct.new(:token, :word)
-
-  def initialize
-
-    self.words = %w[north south east west down up left right back]
-    self.verbs = %w[go stop kill eat]
-    self.stop_words = %w[the in of from at it]
-    self.nouns = %w[door bear princess cabinet]
-    self.number_pattern = "[0-9]+"
-
-  end
+  @@words = %w[north south east west down up left right back]
+  @@verbs = %w[go stop kill eat]
+  @@stop_words = %w[the in of from at it]
+  @@nouns = %w[door bear princess cabinet]
+  @@number_pattern = "[0-9]+"
 
   def self.scan(input)
 
     sentence = []
 
-    lex = Lexicon.new
-
     user_input = input.split
 
     user_input.each do |word|
-      word_downcase = word.downcase
-
+      word = word.downcase
       # if the words array includes the first inputted word, make it into
       # a hash and then push it into the sentence array
-      if lex.words.include?(word_downcase)
+      if @@words.include?(word)
         sentence.push(["direction", word])
-      elsif lex.verbs.include?(word_downcase)
-        sentence.push(Pair.new(:verb, word))
-      elsif lex.stop_words.include?(word_downcase)
-        sentence.push(Pair.new(:stop, word))
-      elsif lex.nouns.include?(word_downcase)
-        sentence.push(Pair.new(:noun, word))
-      elsif lex.number_pattern.match(@number_pattern)
-        sentence.push(Pair.new(:number, word.to_i))
+      elsif @@verbs.include?(word)
+        sentence.push(["verb", word])
+      elsif @@stop_words.include?(word)
+        sentence.push(["stop", word])
+      elsif @@nouns.include?(word)
+        sentence.push(["noun", word])
+      elsif @@number_pattern.match(input)
+        sentence.push(["number", input.to_i])
       else
-        sentence.push(Pair.new(:error, word))
+        sentence.push(["error", word])
       end
     end
+    return sentence
   end
 
 end

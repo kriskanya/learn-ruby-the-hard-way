@@ -12,4 +12,14 @@ class TestLexicon < Minitest::Test
            ['direction', 'east']])
   end
 
+  def test_verbs()
+    assert_equal(Lexicon.scan("go"), [['verb', 'go']])
+    result = Lexicon.scan("go kill eat")
+    assert_equal(result, [['verb', 'go'],
+          ['verb', 'kill'],
+          ['verb', 'eat']])
+  end
+
+
+
 end
